@@ -1,10 +1,6 @@
-////////////////////////////////////////
-//  SISTEMA EM FASE DE IMPLEMENTAÇÃO  //
-////////////////////////////////////////
+*** SISTEMA EM FASE DE IMPLEMENTAÇÃO ***
 
-//////////////////////////////////
-//  FUNCIONALIDADES DO PROJETO  //
-//////////////////////////////////
+//   FUNCIONALIDADES DO PROJETO
 - Prover informações sobre computadores cadastrados:
   Nome da estação, Grupo de Trabalho / Domínio, Endereço IP, Usuário de Windows,
   Pessoa quem usa, SO.
@@ -17,9 +13,7 @@
 
 - Sistema de login para autenticar os usuários da aplicação.
 
-//////////////////////////////////
-//          OBSERVAÇÕES         //
-//////////////////////////////////
+//   OBSERVAÇÕES
 - Para acesso ao sistema, o usuário deve estar devidamente cadastrado.
 - O cadastro é realizado por algum usuário já existente na aplicação, não permitindo o auto-registro.
 - O sistema vem com um usuário padrão devidamente configurado (login: admin, senha: admin)
