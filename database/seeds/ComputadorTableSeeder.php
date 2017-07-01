@@ -15,6 +15,6 @@ class ComputadorTableSeeder extends Seeder
     {
         $c = new Computador();
         $c->nome_estacao = 'EstacaoXX';
-        Cliente::find(1)->computadores()->save($c);
+        Cliente::first()->computadores()->save($c);
     }
 }

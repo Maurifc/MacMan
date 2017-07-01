@@ -11,4 +11,8 @@ class Cliente extends Model
   public function computadores(){
     return $this->hasMany('App\Computador', 'cliente_id');
   }
+
+  public function telefones(){
+    return $this->hasMany('App\Telefone', 'cliente_id');
+  }
 }

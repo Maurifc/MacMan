@@ -23,7 +23,7 @@ class CreateComputadoresTable extends Migration
           $table->string('grupo_trabalho')->nullable();
           $table->string('dominio')->nullable();
           $table->string('so')->nullable();
-          $table->string('ip')->nullable();
+          $table->ipAddress('ip')->nullable();
           $table->string('nome_usuario')->nullable(); //Pessoa que usa
           $table->text('obervacao')->nullable();
           $table->timestamps();
