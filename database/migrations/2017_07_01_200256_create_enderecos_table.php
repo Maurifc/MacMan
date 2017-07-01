@@ -17,7 +17,7 @@ class CreateEnderecosTable extends Migration
             $table->increments('endereco_id');
             $table->integer('cliente_id')->unsigned();
             $table->foreign('cliente_id')->references('cliente_id')->
-                                          on('clientes')->delete('cascade');
+                                          on('clientes')->onDelete('cascade');
             $table->string('logradouro')->nullable();
             $table->integer('numero')->nullable();
             $table->string('bairro')->nullable();

@@ -19,4 +19,9 @@ class Cliente extends Model
   public function endereco(){
     return $this->hasOne('App\Endereco', 'cliente_id');
   }
+
+  public function licencas(){
+    return $this->hasMany('App\Licenca', 'cliente_id');
+  }
+
 }
