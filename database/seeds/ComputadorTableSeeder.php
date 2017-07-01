@@ -13,8 +13,17 @@ class ComputadorTableSeeder extends Seeder
      */
     public function run()
     {
-        $c = new Computador();
-        $c->nome_estacao = 'EstacaoXX';
-        Cliente::find(1)->computadores()->save($c);
+        if(Computador::first() === null){
+          $c = new Computador();
+          $c->nome_estacao = 'EstacaoExemplo';
+          $c->login = 'Usuario SO';
+          $c->grupo_trabalho = 'GrupoEmpresaExemplo';
+          $c->so = 'Debian 9 Stretch';
+          $c->ip = '192.168.0.1';
+          $c->nome_usuario = 'José';
+          Cliente::first()->computadores()->save($c);
+        }
+
+        echo "Tabela 'computadores' semeada\n";
     }
 }

@@ -12,4 +12,8 @@ class Computador extends Model
   public function cliente(){
     return $this->belongsTo('App\Cliente', 'cliente_id');
   }
+
+  public function licencas(){
+    return $this->belongsToMany('App\Licenca', 'computador_licenca', 'comp_id', 'licenca_id');
+  }
 }

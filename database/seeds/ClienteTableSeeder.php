@@ -12,8 +12,13 @@ class ClienteTableSeeder extends Seeder
      */
     public function run()
     {
+      if(Cliente::first() === null){
         $cliente = new Cliente();
         $cliente->nome = 'ClienteExemplo';
+        $cliente->email = 'contato@clienteemail.com';
         $cliente->save();
+      }
+
+      echo "Tabela 'clientes' semeada\n";
     }
 }
