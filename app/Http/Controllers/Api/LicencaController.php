@@ -11,9 +11,15 @@ class LicencaController extends Controller
 {
     public function index()
     {
-      $licencas = Licenca::all();
+      try{
+        $licencas = Licenca::all();
+      } catch (\Exception $e) {
+        return response(['error' => true], 403);
+      }
 
-      return ($licencas->count() === 0) ? ['empty' => true] : $licencas;
+      if($licencas->count() === 0) return ['empty' => true];
+
+      return $licencas;
     }
 
 

@@ -10,6 +10,7 @@ use App\Cliente;
 
 class ClienteController extends Controller
 {
+    // TODO: Add Try Catches...
     public function index()
     {
       $clientes = Cliente::with('endereco')->get();

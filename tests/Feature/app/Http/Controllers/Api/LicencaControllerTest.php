@@ -193,4 +193,5 @@ class LicencaControllerTest extends TestCase
 
     $response->assertStatus(422);
   }
+
 }
