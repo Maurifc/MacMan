@@ -6,16 +6,193 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
+use App\Computador;
+use App\Cliente;
 class ComputadorControllerTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+  use WithoutMiddleware;
+  use DatabaseMigrations;
+
+  /*
+  | GETS
+  */
+  public function test_should_return_all_fields()
+  {
+    $licenca = factory(Computador::class)->create();
+    $response = $this->json('get', 'api/computadores/1');
+
+    $response->assertJsonStructure([
+      'comp_id',
+      'cliente_id',
+      'nome_estacao',
+      'login',
+      'grupo_trabalho',
+      'dominio',
+      'so_id',
+      'so_arquitetura',
+      'ip',
+      'nome_usuario',
+      'obervacao',
+    ]);
+  }
+
+  // public function test_should_return_all_computadores()
+  // {
+  //   $computadores = factory(Licenca::class, 3)->create();
+  //
+  //   $response = $this->json('get', 'api/computadores');
+  //
+  //   foreach ($computadores as $licenca) {
+  //       $response->assertJsonFragment([
+  //         'licenca_id' => $licenca->licenca_id,
+  //       ]);
+  //   }
+  // }
+  //
+  // public function test_should_return_empty_if_has_no_licenca()
+  // {
+  //   $response = $this->json('get', 'api/computadores');
+  //   $response->assertJson([
+  //    'empty' => true,
+  //    ]);
+  // }
+  //
+  //
+  // public function test_should_return_a_license_from_id()
+  // {
+  //   $licenca = factory(Licenca::class)->create();
+  //
+  //   $response = $this->json('get', 'api/computadores/'.$licenca->licenca_id);
+  //   $response->assertJson([
+  //     'licenca_id' => $licenca->licenca_id
+  //   ]);
+  // }
+  //
+  // public function test_invalid_id_should_return_error()
+  // {
+  //   $licenca = $this->computadores = factory(Licenca::class)->create();
+  //
+  //   $response = $this->json('get', 'api/computadores/100');
+  //   $response->assertStatus(403);
+  //   $response->assertJson(['error' => true]);
+  // }
+  //
+  // /*
+  // | CREATE/UPDATE TESTS
+  // */
+  // public function test_should_create_license_and_return_json()
+  // {
+  //   $cliente = factory(\App\Cliente::class)->create();
+  //
+  //   $response = $this->json('post', 'api/computadores',[
+  //    'cliente_id'=> $cliente->cliente_id,
+  //    'nome_software'=> 'Kaspersky',
+  //    'chave'=> '0000-0000-0000-0000',
+  //    'login'=> 'login-',
+  //    'senha'=> 'senha-',
+  //    'data_expiracao'=> '2016-09-15',
+  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+  //    ]);
+  //
+  //    $response->assertJson([
+  //      'cliente_id'=> $cliente->cliente_id,
+  //      'nome_software'=> 'Kaspersky',
+  //      'chave'=> '0000-0000-0000-0000',
+  //      'login'=> 'login-',
+  //      'senha'=> 'senha-',
+  //      'data_expiracao'=> '2016-09-15',
+  //      'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+  //     ]);
+  // }
+  //
+  // public function test_should_return_error_if_cliente_id_null()
+  // {
+  //   $response = $this->json('post', 'api/computadores',[
+  //    'cliente_id'=> '',
+  //    'nome_software'=> 'Kaspersky',
+  //    'chave'=> '0000-0000-0000-0000',
+  //    'login'=> 'login-',
+  //    'senha'=> 'senha-',
+  //    'data_expiracao'=> '2016-09-15',
+  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+  //    ]);
+  //
+  //    $response->assertStatus(422);
+  // }
+  //
+  // public function test_should_return_error_if_software_name_null()
+  // {
+  //   $cliente = factory(\App\Cliente::class)->create();
+  //
+  //   $response = $this->json('post', 'api/computadores',[
+  //    'cliente_id'=> '1',
+  //    'nome_software'=> '',
+  //    'chave'=> '0000-0000-0000-0000',
+  //    'login'=> 'login-',
+  //    'senha'=> 'senha-',
+  //    'data_expiracao'=> '2016-09-15',
+  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+  //    ]);
+  //
+  //    $response->assertStatus(422);
+  // }
+  //
+  // public function test_should_return_error_if_cliente_id_invalid()
+  // {
+  //   $response = $this->json('post', 'api/computadores', [
+  //    'cliente_id'=> 300, //cliente_id 300 doesn't exists
+  //    'nome_software'=> 'Kaspersky',
+  //    'chave'=> '0000-0000-0000-0000',
+  //    'login'=> 'login-',
+  //    'senha'=> 'senha-',
+  //    'data_expiracao'=> '2016-09-15',
+  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+  //    ]);
+  //
+  //
+  //    $response->assertJson([
+  //     'error' => 'true',
+  //     ]);
+  //     $response->assertStatus(403);
+  // }
+  //
+  // public function test_should_update_client()
+  // {
+  //   $licenca = factory(Licenca::class)->create();
+  //
+  //   $response = $this->json('put', 'api/computadores/'.$licenca->licenca_id, [
+  //    'nome_software'=> 'novo_nome_software',
+  //    'cliente_id'=> $licenca->cliente->cliente_id,
+  //   ]);
+  //
+  //   $response->assertJson([
+  //    'nome_software'=> 'novo_nome_software',
+  //   ]);
+  // }
+  //
+  // public function test_should_return_error_if_license_do_not_exists()
+  // {
+  //   //licenca_id 300 do not exists
+  //   $response = $this->json('put', 'api/computadores/300', [
+  //    'nome_software'=> 'novo_nome_software',
+  //    'cliente_id'=> 1,
+  //   ]);
+  //
+  //   $response->assertJson([
+  //    'error' => true,
+  //    ]);
+  //   $response->assertStatus(403);
+  // }
+  //
+  // public function test_should_return_error_if_software_name_is_empty()
+  // {
+  //   $licenca = factory(Licenca::class)->create();
+  //
+  //   $response = $this->json('put', 'api/computadores/'.$licenca->licenca_id, [
+  //    'nome_software'=> '',
+  //    'cliente_id'=> $licenca->cliente->cliente_id,
+  //   ]);
+  //
+  //   $response->assertStatus(422);
+  // }
 }
