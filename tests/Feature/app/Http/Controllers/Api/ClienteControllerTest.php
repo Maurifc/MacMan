@@ -93,15 +93,15 @@ class ClienteControllerTest extends TestCase
       $cliente = factory(Cliente::class)->create();
 
       $response = $this->json('put', 'api/clientes/1',[
-        "nome" => 'novo_nome'
+        "nome" => 'novo_nome',
       ]);
 
       $response->assertJson([
-          "nome" => 'novo_nome'
+          "nome" => 'novo_nome',
       ]);
     }
 
-    public function test_should_return_error_if_client_not_exists()
+    public function test_should_return_error_if_client_do_not_exists()
     {
       $response = $this->json('put', 'api/clientes/1', [
         'nome' => 'nomeQualquer'

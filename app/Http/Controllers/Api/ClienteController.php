@@ -38,7 +38,7 @@ class ClienteController extends Controller
     {
       try{
         $cliente = Cliente::with('endereco')->findOrFail($id);
-      } catch (ModelNotFoundException $e){
+      } catch (ModelNotFoundException $e){ // TODO: Trocar a classe da exception
         return response(['error' => true], 403);
       }
 

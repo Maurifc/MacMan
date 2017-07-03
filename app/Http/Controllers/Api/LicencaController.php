@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\LicencaRequest;
 use App\Licenca;
 
@@ -44,7 +43,7 @@ class LicencaController extends Controller
     {
       try{
         $licenca = Licenca::findOrFail($id);
-      } catch (ModelNotFoundException $e) {
+      } catch (\Exception $e) {
         return response(['error' => true], 403);
       }
 
@@ -69,9 +68,16 @@ class LicencaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(LicencaRequest $request, $id)
     {
-        //
+      try {
+        $licenca = Licenca::findOrFail($id);
+        $licenca->update($request->all());
+      } catch (\Exception $e) {
+        return response(['error' => true], 403);
+      }
+
+      return $licenca;
     }
 
     /**

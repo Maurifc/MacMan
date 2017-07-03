@@ -78,7 +78,7 @@ class LicencaControllerTest extends TestCase
   /*
   | CREATE/UPDATE TESTS
   */
-  public function test_should_create_licenca_and_return_json()
+  public function test_should_create_license_and_return_json()
   {
     $cliente = factory(\App\Cliente::class)->create();
 
@@ -118,7 +118,7 @@ class LicencaControllerTest extends TestCase
      $response->assertStatus(422);
   }
 
-  public function test_should_return_error_if_nome_software_null()
+  public function test_should_return_error_if_software_name_null()
   {
     $cliente = factory(\App\Cliente::class)->create();
 
@@ -152,5 +152,45 @@ class LicencaControllerTest extends TestCase
       'error' => 'true',
       ]);
       $response->assertStatus(403);
+  }
+
+  public function test_should_update_client()
+  {
+    $licenca = factory(Licenca::class)->create();
+
+    $response = $this->json('put', 'api/licencas/'.$licenca->licenca_id, [
+     'nome_software'=> 'novo_nome_software',
+     'cliente_id'=> $licenca->cliente->cliente_id,
+    ]);
+
+    $response->assertJson([
+     'nome_software'=> 'novo_nome_software',
+    ]);
+  }
+
+  public function test_should_return_error_if_license_do_not_exists()
+  {
+    //licenca_id 300 do not exists
+    $response = $this->json('put', 'api/licencas/300', [
+     'nome_software'=> 'novo_nome_software',
+     'cliente_id'=> 1,
+    ]);
+
+    $response->assertJson([
+     'error' => true,
+     ]);
+    $response->assertStatus(403);
+  }
+
+  public function test_should_return_error_if_software_name_is_empty()
+  {
+    $licenca = factory(Licenca::class)->create();
+
+    $response = $this->json('put', 'api/licencas/'.$licenca->licenca_id, [
+     'nome_software'=> '',
+     'cliente_id'=> $licenca->cliente->cliente_id,
+    ]);
+
+    $response->assertStatus(422);
   }
 }
