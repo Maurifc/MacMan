@@ -53,6 +53,6 @@ $factory->define(App\Computador::class, function(Faker\Generator $faker){
     'so_arquitetura' => rand(1, 2),
     'ip' => '192.168.0.'.$numeroEstacao,
     'nome_usuario' => $faker->name,
-    'obervacao' => $faker->sentence,
+    'observacao' => $faker->sentence,
   ];
 });

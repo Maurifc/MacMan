@@ -39,7 +39,8 @@ class ComputadorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $computador = Computador::create($request->all());
+      return $computador;
     }
 
     /**

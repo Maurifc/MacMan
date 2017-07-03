@@ -36,7 +36,7 @@ class ComputadorControllerTest extends TestCase
       'so_arquitetura',
       'ip',
       'nome_usuario',
-      'obervacao',
+      'observacao',
     ]);
   }
 
@@ -78,33 +78,38 @@ class ComputadorControllerTest extends TestCase
     $response->assertJson(['error' => true]);
   }
 
-  // /*
-  // | CREATE/UPDATE TESTS
-  // */
-  // public function test_should_create_computer_and_return_json()
-  // {
-  //   $cliente = factory(\App\Cliente::class)->create();
-  //
-  //   $response = $this->json('post', 'api/computadores',[
-  //    'cliente_id'=> $cliente->cliente_id,
-  //    'nome_software'=> 'Kaspersky',
-  //    'chave'=> '0000-0000-0000-0000',
-  //    'login'=> 'login-',
-  //    'senha'=> 'senha-',
-  //    'data_expiracao'=> '2016-09-15',
-  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
-  //    ]);
-  //
-  //    $response->assertJson([
-  //      'cliente_id'=> $cliente->cliente_id,
-  //      'nome_software'=> 'Kaspersky',
-  //      'chave'=> '0000-0000-0000-0000',
-  //      'login'=> 'login-',
-  //      'senha'=> 'senha-',
-  //      'data_expiracao'=> '2016-09-15',
-  //      'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
-  //     ]);
-  // }
+  /*
+  | CREATE/UPDATE TESTS
+  */
+  public function test_should_create_computer_and_return_json()
+  {
+    $cliente = factory(\App\Cliente::class)->create();
+    $so = factory(\App\SistemaOperacional::class)->create();
+
+    $response = $this->json('post', 'api/computadores',[
+     'cliente_id'=> $cliente->cliente_id,
+     'nome_estacao' => 'EstacaoXX',
+     'login' => 'Loginusuario',
+     'grupo_trabalho' => 'Grupo de trabalho',
+     'dominio' => '',
+     'so_id' => $so->so_id,
+     'so_arquitetura' => 2,
+     'ip' => '192.168.0.100',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertJson([
+       'cliente_id'=> $cliente->cliente_id,
+       'nome_estacao' => 'EstacaoXX',
+       'login' => 'Loginusuario',
+       'grupo_trabalho' => 'Grupo de trabalho',
+       'dominio' => '',
+       'so_id' => $so->so_id,
+       'so_arquitetura' => 2,
+       'ip' => '192.168.0.100',
+       'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+      ]);
+  }
   //
   // public function test_should_return_error_if_cliente_id_null()
   // {
