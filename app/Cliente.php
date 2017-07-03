@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
+  protected $fillable = ['nome', 'email', 'observacao'];
   protected $primaryKey = 'cliente_id';
 
   public function computadores(){
