@@ -75,4 +75,82 @@ class LicencaControllerTest extends TestCase
     $response->assertJson(['error' => true]);
   }
 
+  /*
+  | CREATE/UPDATE TESTS
+  */
+  public function test_should_create_licenca_and_return_json()
+  {
+    $cliente = factory(\App\Cliente::class)->create();
+
+    $response = $this->json('post', 'api/licencas',[
+     'cliente_id'=> $cliente->cliente_id,
+     'nome_software'=> 'Kaspersky',
+     'chave'=> '0000-0000-0000-0000',
+     'login'=> 'login-',
+     'senha'=> 'senha-',
+     'data_expiracao'=> '2016-09-15',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertJson([
+       'cliente_id'=> $cliente->cliente_id,
+       'nome_software'=> 'Kaspersky',
+       'chave'=> '0000-0000-0000-0000',
+       'login'=> 'login-',
+       'senha'=> 'senha-',
+       'data_expiracao'=> '2016-09-15',
+       'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+      ]);
+  }
+
+  public function test_should_return_error_if_cliente_id_null()
+  {
+    $response = $this->json('post', 'api/licencas',[
+     'cliente_id'=> '',
+     'nome_software'=> 'Kaspersky',
+     'chave'=> '0000-0000-0000-0000',
+     'login'=> 'login-',
+     'senha'=> 'senha-',
+     'data_expiracao'=> '2016-09-15',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertStatus(422);
+  }
+
+  public function test_should_return_error_if_nome_software_null()
+  {
+    $cliente = factory(\App\Cliente::class)->create();
+
+    $response = $this->json('post', 'api/licencas',[
+     'cliente_id'=> '1',
+     'nome_software'=> '',
+     'chave'=> '0000-0000-0000-0000',
+     'login'=> 'login-',
+     'senha'=> 'senha-',
+     'data_expiracao'=> '2016-09-15',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertStatus(422);
+  }
+
+  public function test_should_return_error_if_cliente_id_invalid()
+  {
+    $response = $this->json('post', 'api/licencas', [
+     'cliente_id'=> 300, //cliente_id 300 doesn't exists
+     'nome_software'=> 'Kaspersky',
+     'chave'=> '0000-0000-0000-0000',
+     'login'=> 'login-',
+     'senha'=> 'senha-',
+     'data_expiracao'=> '2016-09-15',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+
+     $response->assertJson([
+      'error' => 'true',
+      ]);
+      $response->assertStatus(403);
+  }
 }

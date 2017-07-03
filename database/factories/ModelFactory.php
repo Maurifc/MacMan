@@ -42,5 +42,6 @@ $factory->define(App\Licenca::class, function(Faker\Generator $faker){
     'senha' =>  bcrypt('123456'),
     'data_expiracao' =>  $faker->dateTimeThisYear->format('Y-m-d'),
     'qnt_ativacoes' =>  rand(1, 20),
+    'observacao' => $faker->sentence,
   ];
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\LicencaRequest;
 use App\Licenca;
 
 class LicencaController extends Controller
@@ -28,9 +29,15 @@ class LicencaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LicencaRequest $request)
     {
-        //
+      try {
+        $licenca = Licenca::create($request->all());
+      } catch (\Exception $e) {
+        return response(['error' => true], 403);
+      }
+
+      return $licenca;
     }
 
     public function show($id)
