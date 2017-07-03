@@ -23,10 +23,24 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+//Cliente
 $factory->define(App\Cliente::class, function (Faker\Generator $faker) {
     return [
         'nome' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'observacao' => $faker->text()
     ];
+});
+
+//Licenca
+$factory->define(App\Licenca::class, function(Faker\Generator $faker){
+  return [
+    'cliente_id' => factory(App\Cliente::class)->create()->cliente_id,
+    'nome_software' =>  $faker->word,
+    'chave' =>  '00000-00000-00000-00000-00000',
+    'login' =>  $faker->word,
+    'senha' =>  bcrypt('123456'),
+    'data_expiracao' =>  $faker->dateTimeThisYear->format('Y-m-d'),
+    'qnt_ativacoes' =>  rand(1, 20),
+  ];
 });

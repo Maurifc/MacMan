@@ -14,11 +14,7 @@ class ClienteController extends Controller
     {
       $clientes = Cliente::with('endereco')->get();
 
-      if($clientes->count() === 0){
-        return ["empty" => true];
-      }
-
-      return $clientes;
+      return ($clientes->count() === 0) ? ['empty' => true] : $clientes;
     }
 
     public function create()
