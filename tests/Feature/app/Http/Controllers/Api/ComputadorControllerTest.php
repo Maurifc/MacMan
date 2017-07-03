@@ -13,13 +13,17 @@ class ComputadorControllerTest extends TestCase
   use WithoutMiddleware;
   use DatabaseMigrations;
 
+  protected $computadores;
+  protected $computador;
+
   /*
   | GETS
   */
   public function test_should_return_all_fields()
   {
-    $licenca = factory(Computador::class)->create();
-    $response = $this->json('get', 'api/computadores/1');
+    $computadores = $this->insertComputadores();
+    $response = $this->json('get',
+        'api/computadores/'.$computadores->first()->comp_id);
 
     $response->assertJsonStructure([
       'comp_id',
@@ -36,51 +40,48 @@ class ComputadorControllerTest extends TestCase
     ]);
   }
 
-  // public function test_should_return_all_computadores()
-  // {
-  //   $computadores = factory(Licenca::class, 3)->create();
-  //
-  //   $response = $this->json('get', 'api/computadores');
-  //
-  //   foreach ($computadores as $licenca) {
-  //       $response->assertJsonFragment([
-  //         'licenca_id' => $licenca->licenca_id,
-  //       ]);
-  //   }
-  // }
-  //
-  // public function test_should_return_empty_if_has_no_licenca()
-  // {
-  //   $response = $this->json('get', 'api/computadores');
-  //   $response->assertJson([
-  //    'empty' => true,
-  //    ]);
-  // }
-  //
-  //
-  // public function test_should_return_a_license_from_id()
-  // {
-  //   $licenca = factory(Licenca::class)->create();
-  //
-  //   $response = $this->json('get', 'api/computadores/'.$licenca->licenca_id);
-  //   $response->assertJson([
-  //     'licenca_id' => $licenca->licenca_id
-  //   ]);
-  // }
-  //
-  // public function test_invalid_id_should_return_error()
-  // {
-  //   $licenca = $this->computadores = factory(Licenca::class)->create();
-  //
-  //   $response = $this->json('get', 'api/computadores/100');
-  //   $response->assertStatus(403);
-  //   $response->assertJson(['error' => true]);
-  // }
-  //
+  public function test_should_return_all_computers()
+  {
+    $computadores = $this->insertComputadores();
+    $response = $this->json('get', 'api/computadores');
+
+    foreach ($computadores as $computador) {
+        $response->assertJsonFragment([
+          'comp_id' => $computador->comp_id,
+        ]);
+    }
+  }
+
+  public function test_should_return_empty_if_has_no_computer()
+  {
+    $response = $this->json('get', 'api/computadores');
+    $response->assertJson([
+     'empty' => true,
+     ]);
+  }
+
+  public function test_should_return_a_computer_from_id()
+  {
+    $computador = $this->insertComputador();
+    $response = $this->json('get', 'api/computadores/'.$computador->comp_id);
+    $response->assertJson([
+      'comp_id' => $computador->comp_id
+    ]);
+  }
+
+  public function test_invalid_id_should_return_error()
+  {
+    $computador = $this->insertComputador();
+
+    $response = $this->json('get', 'api/computadores/100'); //comp_id 100 doesn't exists
+    $response->assertStatus(403);
+    $response->assertJson(['error' => true]);
+  }
+
   // /*
   // | CREATE/UPDATE TESTS
   // */
-  // public function test_should_create_license_and_return_json()
+  // public function test_should_create_computer_and_return_json()
   // {
   //   $cliente = factory(\App\Cliente::class)->create();
   //
@@ -158,11 +159,11 @@ class ComputadorControllerTest extends TestCase
   //
   // public function test_should_update_client()
   // {
-  //   $licenca = factory(Licenca::class)->create();
+  //   $computador = factory(Licenca::class)->create();
   //
-  //   $response = $this->json('put', 'api/computadores/'.$licenca->licenca_id, [
+  //   $response = $this->json('put', 'api/computadores/'.$computador->comp_id, [
   //    'nome_software'=> 'novo_nome_software',
-  //    'cliente_id'=> $licenca->cliente->cliente_id,
+  //    'cliente_id'=> $computador->cliente->cliente_id,
   //   ]);
   //
   //   $response->assertJson([
@@ -170,9 +171,9 @@ class ComputadorControllerTest extends TestCase
   //   ]);
   // }
   //
-  // public function test_should_return_error_if_license_do_not_exists()
+  // public function test_should_return_error_if_computer_do_not_exists()
   // {
-  //   //licenca_id 300 do not exists
+  //   //comp_id 300 do not exists
   //   $response = $this->json('put', 'api/computadores/300', [
   //    'nome_software'=> 'novo_nome_software',
   //    'cliente_id'=> 1,
@@ -186,13 +187,23 @@ class ComputadorControllerTest extends TestCase
   //
   // public function test_should_return_error_if_software_name_is_empty()
   // {
-  //   $licenca = factory(Licenca::class)->create();
+  //   $computador = factory(Licenca::class)->create();
   //
-  //   $response = $this->json('put', 'api/computadores/'.$licenca->licenca_id, [
+  //   $response = $this->json('put', 'api/computadores/'.$computador->comp_id, [
   //    'nome_software'=> '',
-  //    'cliente_id'=> $licenca->cliente->cliente_id,
+  //    'cliente_id'=> $computador->cliente->cliente_id,
   //   ]);
   //
   //   $response->assertStatus(422);
   // }
+
+
+  public function insertComputadores($quantidade = 3)
+  {
+    return factory(Computador::class, $quantidade)->create();
+  }
+  public function insertComputador()
+  {
+    return $this->insertComputadores(1)->first();
+  }
 }

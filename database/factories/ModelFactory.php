@@ -50,7 +50,7 @@ $factory->define(App\Computador::class, function(Faker\Generator $faker){
     'grupo_trabalho' => $faker->word,
     'dominio' => '',
     'so_id' => factory(App\SistemaOperacional::class)->create()->so_id,
-    'so_arquitetura' => rand(0, 1),
+    'so_arquitetura' => rand(1, 2),
     'ip' => '192.168.0.'.$numeroEstacao,
     'nome_usuario' => $faker->name,
     'obervacao' => $faker->sentence,

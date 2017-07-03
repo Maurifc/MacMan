@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Computador;
 
 class ComputadorController extends Controller
 {
@@ -14,7 +15,10 @@ class ComputadorController extends Controller
      */
     public function index()
     {
-        //
+      $computadores = Computador::with('so')->get();
+
+      if($computadores->count() === 0) return ['empty' => true];
+      return $computadores;
     }
 
     /**
@@ -46,7 +50,13 @@ class ComputadorController extends Controller
      */
     public function show($id)
     {
-        //
+      try{
+        $computador = Computador::findOrFail($id);
+      } catch (\Exception $e) {
+        return response(['error' => true], 403);
+      }
+
+      return $computador;
     }
 
     /**
