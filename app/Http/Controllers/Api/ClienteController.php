@@ -10,15 +10,12 @@ use App\Cliente;
 
 class ClienteController extends Controller
 {
+    // TODO: Add Try Catches...
     public function index()
     {
       $clientes = Cliente::with('endereco')->get();
 
-      if($clientes->count() === 0){
-        return ["empty" => true];
-      }
-
-      return $clientes;
+      return ($clientes->count() === 0) ? ['empty' => true] : $clientes;
     }
 
     public function create()
@@ -42,7 +39,7 @@ class ClienteController extends Controller
     {
       try{
         $cliente = Cliente::with('endereco')->findOrFail($id);
-      } catch (ModelNotFoundException $e){
+      } catch (ModelNotFoundException $e){ // TODO: Trocar a classe da exception
         return response(['error' => true], 403);
       }
 

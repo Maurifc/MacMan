@@ -22,7 +22,7 @@ class CreateLicencasTable extends Migration
             $table->string('chave')->nullable();
             $table->string('login')->nullable();
             $table->string('senha')->nullable();
-            $table->date('data_expiracao');
+            $table->date('data_expiracao')->nullable();
             $table->smallinteger('qnt_ativacoes')->unsigned()->default(1);
             $table->text('observacao')->nullable();
             $table->timestamps();

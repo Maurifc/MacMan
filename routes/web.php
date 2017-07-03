@@ -10,6 +10,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 /*
 * API
 */
+//Cliente
 Route::prefix('api')->group(function(){
   Route::resource('clientes', 'Api\ClienteController');
+  Route::resource('licencas', 'Api\LicencaController');
 });

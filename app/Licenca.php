@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Licenca extends Model
 {
     protected $primaryKey = 'licenca_id';
-
+    protected $fillable = [
+      'cliente_id',
+      'nome_software',
+      'chave',
+      'login',
+      'senha',
+      'data_expiracao',
+      'observacao',
+    ];
+    
     public function cliente(){
       return $this->belongsTo('App\Cliente', 'cliente_id');
     }
