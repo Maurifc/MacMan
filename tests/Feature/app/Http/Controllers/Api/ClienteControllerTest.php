@@ -56,7 +56,7 @@ class ClienteControllerTest extends TestCase
     public function test_invalid_id_should_return_error()
     {
       $response = $this->json('get', 'api/clientes/0');
-      $response->assertStatus(403);
+      $response->assertStatus(404);
       $response->assertJson(['error' => true]);
     }
 
@@ -76,7 +76,7 @@ class ClienteControllerTest extends TestCase
         'observacao' => 'obs'
       ]);
     }
-
+    
     public function test_empty_name_should_return_error()
     {
       $response = $this->json('post', 'api/clientes',[
@@ -107,16 +107,42 @@ class ClienteControllerTest extends TestCase
         'nome' => 'nomeQualquer'
       ]);
 
-      $response->assertStatus(403);
+      $response->assertStatus(404);
     }
 
-    public function test_should_return_error_if_name_is_empty()
+    public function test_should_return_error_if_name_is_null_on_update()
     {
       $response = $this->json('put', 'api/clientes/1', [
         'nome' => ''
       ]);
 
       $response->assertStatus(422);
+    }
+
+    /*
+    * DELETE
+    */
+    public function test_should_delete_computer()
+    {
+      $cliente = factory(Cliente::class)->create();
+
+      $response = $this->json('delete', 'api/clientes/'.$cliente->cliente_id);
+      $response->assertStatus(200);
+      $response->assertJson([
+       'deleted' => $cliente->cliente_id,
+       ]);
+    }
+
+    public function test_incorrect_id_should_return_error_on_delete()
+    {
+      $cliente = factory(Cliente::class)->create();
+
+      //comp_id 300 does not exists
+      $response = $this->json('delete', 'api/clientes/300');
+      $response->assertStatus(404);
+      $response->assertJson([
+       'error' => 'true',
+       ]);
     }
 
 }

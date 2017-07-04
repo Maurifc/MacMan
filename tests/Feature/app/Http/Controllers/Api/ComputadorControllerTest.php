@@ -215,7 +215,10 @@ class ComputadorControllerTest extends TestCase
 
     $response->assertStatus(422);
   }
-
+  
+  /*
+  * DELETE
+  */
   public function test_should_delete_computer()
   {
     $computador = $this->insertComputador();
@@ -226,6 +229,7 @@ class ComputadorControllerTest extends TestCase
      'deleted' => $computador->comp_id,
      ]);
   }
+
   public function test_incorrect_id_should_return_error_on_delete()
   {
     $computador = $this->insertComputador();

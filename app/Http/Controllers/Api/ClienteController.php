@@ -39,11 +39,19 @@ class ClienteController extends Controller
     {
       try{
         $cliente = Cliente::with('endereco')->findOrFail($id);
-      } catch (ModelNotFoundException $e){ // TODO: Trocar a classe da exception
-        return response(['error' => true], 403);
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
-        return $cliente;
+      return $cliente;
     }
 
     public function edit($id)
@@ -58,20 +66,38 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
         $cliente->update($request->all());
       } catch (ModelNotFoundException $e){
-        return response(['error' => true], 403);
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
       return $cliente;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+     public function destroy($id)
+     {
+       try{
+         $cliente = Cliente::findOrFail($id);
+         $cliente->delete();
+       } catch (ModelNotFoundException $e){
+         return response([
+           'error' => true,
+           'msg' => 'Id not found',
+         ], 404);
+       } catch (\Exception $e){
+         return response([
+           'error' => true,
+           'msg' => 'Unknown error',
+         ], 403);
+       }
+
+
+       return ['deleted' => $cliente->cliente_id];
+     }
 }
