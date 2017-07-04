@@ -25,7 +25,7 @@ class CreateComputadoresTable extends Migration
           $table->string('so')->nullable();
           $table->ipAddress('ip')->nullable();
           $table->string('nome_usuario')->nullable(); //Pessoa que usa
-          $table->text('obervacao')->nullable();
+          $table->text('observacao')->nullable();
           $table->timestamps();
         });
     }

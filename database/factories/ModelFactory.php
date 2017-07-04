@@ -1,17 +1,4 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
-
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -42,6 +29,30 @@ $factory->define(App\Licenca::class, function(Faker\Generator $faker){
     'senha' =>  bcrypt('123456'),
     'data_expiracao' =>  $faker->dateTimeThisYear->format('Y-m-d'),
     'qnt_ativacoes' =>  rand(1, 20),
+    'observacao' => $faker->sentence,
+  ];
+});
+
+//Sistema Operacional
+$factory->define(App\SistemaOperacional::class, function(Faker\Generator $faker){
+  return [
+    'titulo' => 'SO '.$faker->word,
+  ];
+});
+
+//Computador
+$factory->define(App\Computador::class, function(Faker\Generator $faker){
+  $numeroEstacao = rand(1, 30);
+  return [
+    'cliente_id' => factory(App\Cliente::class)->create()->cliente_id,
+    'nome_estacao' => 'Estacao'.$numeroEstacao,
+    'login' =>  $faker->word,
+    'grupo_trabalho' => $faker->word,
+    'dominio' => '',
+    'so_id' => factory(App\SistemaOperacional::class)->create()->so_id,
+    'so_arquitetura' => rand(1, 2),
+    'ip' => '192.168.0.'.$numeroEstacao,
+    'nome_usuario' => $faker->name,
     'observacao' => $faker->sentence,
   ];
 });

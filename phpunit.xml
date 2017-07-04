@@ -26,9 +26,10 @@
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="DB_DATABASE" value="macmandbtesting"/>
-        <env name="DB_USERNAME" value="homestead"/>
-        <env name="DB_PASSWORD" value="secret"/>
+        <!-- <env name="DB_DATABASE" value="macmandbtesting"/> -->
+        <env name="DB_DEFAULT" value="sqlite_testing"/>
+        <!-- <env name="DB_USERNAME" value="homestead"/>
+        <env name="DB_PASSWORD" value="secret"/> -->
         <env name="QUEUE_DRIVER" value="sync"/>
     </php>
 </phpunit>
