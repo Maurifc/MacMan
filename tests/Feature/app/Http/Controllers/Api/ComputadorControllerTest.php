@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Computador;
 use App\Cliente;
+
 class ComputadorControllerTest extends TestCase
 {
   use WithoutMiddleware;
@@ -74,7 +75,7 @@ class ComputadorControllerTest extends TestCase
     $computador = $this->insertComputador();
 
     $response = $this->json('get', 'api/computadores/100'); //comp_id 100 doesn't exists
-    $response->assertStatus(403);
+    $response->assertStatus(404);
     $response->assertJson(['error' => true]);
   }
 
@@ -110,99 +111,136 @@ class ComputadorControllerTest extends TestCase
        'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
       ]);
   }
-  //
-  // public function test_should_return_error_if_cliente_id_null()
-  // {
-  //   $response = $this->json('post', 'api/computadores',[
-  //    'cliente_id'=> '',
-  //    'nome_software'=> 'Kaspersky',
-  //    'chave'=> '0000-0000-0000-0000',
-  //    'login'=> 'login-',
-  //    'senha'=> 'senha-',
-  //    'data_expiracao'=> '2016-09-15',
-  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
-  //    ]);
-  //
-  //    $response->assertStatus(422);
-  // }
-  //
-  // public function test_should_return_error_if_software_name_null()
-  // {
-  //   $cliente = factory(\App\Cliente::class)->create();
-  //
-  //   $response = $this->json('post', 'api/computadores',[
-  //    'cliente_id'=> '1',
-  //    'nome_software'=> '',
-  //    'chave'=> '0000-0000-0000-0000',
-  //    'login'=> 'login-',
-  //    'senha'=> 'senha-',
-  //    'data_expiracao'=> '2016-09-15',
-  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
-  //    ]);
-  //
-  //    $response->assertStatus(422);
-  // }
-  //
-  // public function test_should_return_error_if_cliente_id_invalid()
-  // {
-  //   $response = $this->json('post', 'api/computadores', [
-  //    'cliente_id'=> 300, //cliente_id 300 doesn't exists
-  //    'nome_software'=> 'Kaspersky',
-  //    'chave'=> '0000-0000-0000-0000',
-  //    'login'=> 'login-',
-  //    'senha'=> 'senha-',
-  //    'data_expiracao'=> '2016-09-15',
-  //    'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
-  //    ]);
-  //
-  //
-  //    $response->assertJson([
-  //     'error' => 'true',
-  //     ]);
-  //     $response->assertStatus(403);
-  // }
-  //
-  // public function test_should_update_client()
-  // {
-  //   $computador = factory(Licenca::class)->create();
-  //
-  //   $response = $this->json('put', 'api/computadores/'.$computador->comp_id, [
-  //    'nome_software'=> 'novo_nome_software',
-  //    'cliente_id'=> $computador->cliente->cliente_id,
-  //   ]);
-  //
-  //   $response->assertJson([
-  //    'nome_software'=> 'novo_nome_software',
-  //   ]);
-  // }
-  //
-  // public function test_should_return_error_if_computer_do_not_exists()
-  // {
-  //   //comp_id 300 do not exists
-  //   $response = $this->json('put', 'api/computadores/300', [
-  //    'nome_software'=> 'novo_nome_software',
-  //    'cliente_id'=> 1,
-  //   ]);
-  //
-  //   $response->assertJson([
-  //    'error' => true,
-  //    ]);
-  //   $response->assertStatus(403);
-  // }
-  //
-  // public function test_should_return_error_if_software_name_is_empty()
-  // {
-  //   $computador = factory(Licenca::class)->create();
-  //
-  //   $response = $this->json('put', 'api/computadores/'.$computador->comp_id, [
-  //    'nome_software'=> '',
-  //    'cliente_id'=> $computador->cliente->cliente_id,
-  //   ]);
-  //
-  //   $response->assertStatus(422);
-  // }
+
+  public function test_should_return_error_if_client_id_is_null()
+  {
+    $so = factory(\App\SistemaOperacional::class)->create();
+
+    $response = $this->json('post', 'api/computadores',[
+     'cliente_id'=> '',
+     'nome_estacao' => 'EstacaoXX',
+     'login' => 'Loginusuario',
+     'grupo_trabalho' => 'Grupo de trabalho',
+     'dominio' => '',
+     'so_id' => $so->so_id,
+     'so_arquitetura' => 2,
+     'ip' => '192.168.0.100',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertStatus(422);
+  }
+
+  public function test_should_return_error_if_station_name_is_null()
+  {
+    $cliente = factory(\App\Cliente::class)->create();
+    $so = factory(\App\SistemaOperacional::class)->create();
+
+    $response = $this->json('post', 'api/computadores',[
+      'cliente_id'=> $cliente->cliente_id,
+      'nome_estacao' => '',
+      'login' => 'Loginusuario',
+      'grupo_trabalho' => 'Grupo de trabalho',
+      'dominio' => 'aaa',
+      'so_id' => $so->so_id,
+      'so_arquitetura' => 2,
+      'ip' => '192.168.0.100',
+      'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertStatus(422);
+  }
+
+  public function test_should_return_error_if_cliente_id_invalid()
+  {
+    $so = factory(\App\SistemaOperacional::class)->create();
+
+    $response = $this->json('post', 'api/computadores', [
+     'cliente_id'=> 300, //cliente_id 300 doesn't exists
+     'nome_estacao' => 'EstacaoXX',
+     'login' => 'Loginusuario',
+     'grupo_trabalho' => 'Grupo de trabalho',
+     'dominio' => 'aaa',
+     'so_id' => $so->so_id,
+     'so_arquitetura' => 2,
+     'ip' => '192.168.0.100',
+     'observacao'=> 'Aut dolores et deserunt nostrum amet consequuntur expedita',
+     ]);
+
+     $response->assertStatus(403);
+
+     $response->assertJson([
+      'error' => 'true',
+      ]);
+  }
+
+  public function test_should_update_computer()
+  {
+    $computador = $this->insertComputador();
+
+    $response = $this->json('put', 'api/computadores/'.$computador->comp_id, [
+     'nome_estacao'=> 'novo_nome_estacao',
+      'cliente_id'=> $computador->cliente->cliente_id,
+    ]);
+
+    $response->assertJson([
+     'nome_estacao'=> 'novo_nome_estacao',
+    ]);
+  }
+
+  public function test_should_return_error_if_computer_do_not_exists()
+  {
+    $cliente = factory(\App\Cliente::class)->create();
+
+    //comp_id 300 does not exists
+    $response = $this->json('put', 'api/computadores/300', [
+     'nome_estacao'=> 'novo_nome_estacao',
+     'cliente_id'=> $cliente->cliente_id,
+    ]);
+
+    $response->assertJson([
+     'error' => true,
+     ]);
+    $response->assertStatus(404);
+  }
+
+  public function test_should_return_error_if_station_name_is_null_on_update()
+  {
+    $computador = $this->insertComputador();
+
+    $response = $this->json('put', 'api/computadores/'.$computador->comp_id, [
+     'nome_estacao'=> '',
+     'cliente_id'=> $computador->cliente->cliente_id,
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  public function test_should_delete_computer()
+  {
+    $computador = $this->insertComputador();
+
+    $response = $this->json('delete', 'api/computadores/'.$computador->comp_id);
+    $response->assertStatus(200);
+    $response->assertJson([
+     'deleted' => $computador->comp_id,
+     ]);
+  }
+  public function test_incorrect_id_should_return_error_on_delete()
+  {
+    $computador = $this->insertComputador();
+
+    //comp_id 300 does not exists
+    $response = $this->json('delete', 'api/computadores/300');
+    $response->assertStatus(404);
+    $response->assertJson([
+     'error' => 'true',
+     ]);
+  }
 
 
+
+  //Funções auxiliares
   public function insertComputadores($quantidade = 3)
   {
     return factory(Computador::class, $quantidade)->create();

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ComputadorRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Computador;
 
 class ComputadorController extends Controller
@@ -37,50 +39,67 @@ class ComputadorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ComputadorRequest $request)
     {
-      $computador = Computador::create($request->all());
-      return $computador;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-      try{
-        $computador = Computador::findOrFail($id);
-      } catch (\Exception $e) {
-        return response(['error' => true], 403);
+      try {
+        $computador = Computador::create($request->all());
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
       return $computador;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function show($id)
+    {
+      try{
+        $computador = Computador::findOrFail($id);
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
+      }
+
+      return $computador;
+    }
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(ComputadorRequest $request, $id)
     {
-        //
+      try {
+        $computador = Computador::findOrFail($id);
+        $computador->update($request->all());
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
+      }
+
+      return $computador;
     }
 
     /**
@@ -91,6 +110,22 @@ class ComputadorController extends Controller
      */
     public function destroy($id)
     {
-        //
+      try{
+        $computador = Computador::findOrFail($id);
+        $computador->delete();
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
+      }
+
+
+      return ['deleted' => $computador->comp_id];
     }
 }
