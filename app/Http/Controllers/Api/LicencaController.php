@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LicencaRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Licenca;
 
 class LicencaController extends Controller
@@ -13,8 +14,11 @@ class LicencaController extends Controller
     {
       try{
         $licencas = Licenca::all();
-      } catch (\Exception $e) {
-        return response(['error' => true], 403);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
       if($licencas->count() === 0) return ['empty' => true];
@@ -28,18 +32,21 @@ class LicencaController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(LicencaRequest $request)
     {
       try {
         $licenca = Licenca::create($request->all());
-      } catch (\Exception $e) {
-        return response(['error' => true], 403);
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Cliente Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
       return $licenca;
@@ -49,8 +56,16 @@ class LicencaController extends Controller
     {
       try{
         $licenca = Licenca::findOrFail($id);
-      } catch (\Exception $e) {
-        return response(['error' => true], 403);
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
       return $licenca;
@@ -67,33 +82,44 @@ class LicencaController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(LicencaRequest $request, $id)
     {
       try {
         $licenca = Licenca::findOrFail($id);
         $licenca->update($request->all());
-      } catch (\Exception $e) {
-        return response(['error' => true], 403);
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
       }
 
       return $licenca;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+      try{
+        $licenca = Licenca::findOrFail($id);
+        $licenca->delete();
+      } catch (ModelNotFoundException $e){
+        return response([
+          'error' => true,
+          'msg' => 'Id not found',
+        ], 404);
+      } catch (\Exception $e){
+        return response([
+          'error' => true,
+          'msg' => 'Unknown error',
+        ], 403);
+      }
+
+      return ['deleted' => $licenca->licenca_id];
     }
 }

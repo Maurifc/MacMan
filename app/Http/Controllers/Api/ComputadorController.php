@@ -10,11 +10,7 @@ use App\Computador;
 
 class ComputadorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
       $computadores = Computador::with('so')->get();
@@ -23,22 +19,13 @@ class ComputadorController extends Controller
       return $computadores;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(ComputadorRequest $request)
     {
       try {
@@ -102,12 +89,7 @@ class ComputadorController extends Controller
       return $computador;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
       try{
@@ -124,7 +106,6 @@ class ComputadorController extends Controller
           'msg' => 'Unknown error',
         ], 403);
       }
-
 
       return ['deleted' => $computador->comp_id];
     }

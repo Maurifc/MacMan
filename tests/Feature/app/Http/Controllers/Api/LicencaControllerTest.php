@@ -12,7 +12,7 @@ class LicencaControllerTest extends TestCase
 {
   use WithoutMiddleware;
   use DatabaseMigrations;
-// TODO: mudar de id_null para id_invalid
+
   /*
   | GETS
   */
@@ -71,7 +71,7 @@ class LicencaControllerTest extends TestCase
     $licenca = $this->licencas = factory(Licenca::class)->create();
 
     $response = $this->json('get', 'api/licencas/100');
-    $response->assertStatus(403);
+    $response->assertStatus(404);
     $response->assertJson(['error' => true]);
   }
 
@@ -179,10 +179,10 @@ class LicencaControllerTest extends TestCase
     $response->assertJson([
      'error' => true,
      ]);
-    $response->assertStatus(403);
+    $response->assertStatus(404);
   }
 
-  public function test_should_return_error_if_software_name_is_empty()
+  public function test_should_return_error_if_software_name_is_null_on_update()
   {
     $licenca = factory(Licenca::class)->create();
 
@@ -192,5 +192,31 @@ class LicencaControllerTest extends TestCase
     ]);
 
     $response->assertStatus(422);
+  }
+
+  /*
+  * DELETE
+  */
+  public function test_should_delete_computer()
+  {
+    $licenca = factory(Licenca::class)->create();
+
+    $response = $this->json('delete', 'api/licencas/'.$licenca->licenca_id);
+    $response->assertStatus(200);
+    $response->assertJson([
+     'deleted' => $licenca->licenca_id,
+     ]);
+  }
+
+  public function test_incorrect_id_should_return_error_on_delete()
+  {
+    $licenca = factory(Licenca::class)->create();
+
+    //comp_id 300 does not exists
+    $response = $this->json('delete', 'api/licencas/300');
+    $response->assertStatus(404);
+    $response->assertJson([
+     'error' => 'true',
+     ]);
   }
 }
