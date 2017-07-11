@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TelefoneTableSeeder::class);
         $this->call(EnderecoTableSeeder::class);
         $this->call(LicencaTableSeeder::class);
+        $this->call(UserTableSeeder::class);
     }
 }
