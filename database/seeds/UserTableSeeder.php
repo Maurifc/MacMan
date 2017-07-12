@@ -15,6 +15,7 @@ class UserTableSeeder extends Seeder
       if(User::where('login', 'admin')->first() === null){
         $admin = new User();
         $admin->name = 'Administrador';
+        $admin->email = 'admin@admin.com';
         $admin->login = 'admin';
         $admin->password = bcrypt('admin');
 

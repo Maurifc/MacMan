@@ -1,16 +1,25 @@
 <?php
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Auth::routes();
+// Auth::routes();
+// 
+// Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+/*
+* Auth
+*/
+Route::prefix('auth')->group(function () {
+  Route::post('/login', 'LoginController@login')->name('login');
+  Route::get('/status', 'LoginController@status')->name('status');
+  Route::get('/logout', 'LoginController@logout')->name('logout');
+});
+
 
 /*
 * API
 */
-//Cliente
 Route::prefix('api')->group(function(){
   Route::resource('clientes', 'Api\ClienteController');
   Route::resource('licencas', 'Api\LicencaController');
