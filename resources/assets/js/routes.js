@@ -1,8 +1,7 @@
-// Vue.component('example', require());
-import example from './components/Example.vue';
+import LoginForm from './components/LoginForm.vue';
 
 const routes = [
-  {path: '/', component: example}
+  {path: '/', component: LoginForm}
 ]
 
 export default routes;

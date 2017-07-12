@@ -10200,3 +10200,17 @@ a.text-gray-dark:hover {
   }
 }
 
+body {
+  background-color: #eceeef;
+  height: 100%;
+}
+
+.navbar {
+  margin-bottom: 1rem;
+}
+
+.container {
+  height: 100%;
+  background-color: #fff;
+}
+
