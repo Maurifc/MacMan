@@ -52,7 +52,6 @@ export default {
       //Validações
       if(this.login == '' || this.password == ''){
         alert('Preencha os campos corretamente!');
-
       } else {
         //AJAX
         axios.post('/auth/login', {
@@ -60,7 +59,8 @@ export default {
           password: this.password
         })
         .then(function (r) {
-          router.push('/computadores');
+          self.$access('admin');
+          self.$router.push('/computadores');
         })
         .catch(function (error) {
           alert('Falha no login. Confira suas credenciais!');
@@ -71,5 +71,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>
