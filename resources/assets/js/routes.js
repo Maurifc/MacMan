@@ -1,5 +1,8 @@
 import LoginForm from './components/LoginForm.vue';
 import Computadores from './components/Computadores.vue';
+import Licencas from './components/Licencas.vue';
+import Clientes from './components/Clientes.vue';
+import Logout from './components/Logout.vue';
 
 const routes = [
   {
@@ -12,7 +15,22 @@ const routes = [
     path: '/computadores',
     component: Computadores,
     meta: {permission: 'admin', fail: '/'}
-  }
+  },
+  {
+    path: '/licencas',
+    component: Licencas,
+    meta: {permission: 'admin', fail: '/'}
+  },
+  {
+    path: '/clientes',
+    component: Clientes,
+    meta: {permission: 'admin', fail: '/'}
+  },
+  {
+    path: '/logout',
+    component: Logout,
+    meta: {permission: 'admin', fail: '/'}
+  },
 ]
 
 export default routes;

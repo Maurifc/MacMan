@@ -22,14 +22,26 @@
       <a class="navbar-brand" href="#">{{config('app.name')}}</a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li> -->
+        <ul class="navbar-nav" v-show="$can('admin')">
+          <li class="nav-item active">
+            <router-link to="/computadores" class="nav-link" href="#">Computadores</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/licencas" class="nav-link" href="#">Licenças</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/clientes" class="nav-link" href="#">Clientes</router-link>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto" v-show="$can('admin')">
+          <li class="nav-item">
+            <router-link to="/logout" class="nav-link" href="#">Sair</router-link>
+          </li>
+        </ul>
 
       </div>
     </nav>
-      @yield('content')
+    @yield('content')
   </div>
 
   <!-- Scripts -->
