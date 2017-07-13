@@ -20,8 +20,8 @@ Route::prefix('auth')->group(function () {
 /*
 * API
 */
-Route::prefix('api')->group(function(){
-  Route::resource('clientes', 'Api\ClienteController');
-  Route::resource('licencas', 'Api\LicencaController');
-  Route::resource('computadores', 'Api\ComputadorController');
+Route::prefix('api')->middleware('auth')->namespace('Api')->group(function(){
+  Route::resource('clientes', 'ClienteController');
+  Route::resource('licencas', 'LicencaController');
+  Route::resource('computadores', 'ComputadorController');
 });
