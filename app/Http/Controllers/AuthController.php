@@ -5,7 +5,7 @@ use Auth;
 
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
   //Tenta realizar a autenticação do usuário
   public function login(Request $request){
@@ -14,16 +14,16 @@ class LoginController extends Controller
         'login' => $request->login,
         'password' => $request->password]))
     {
-      return ['logado' => true];
+      return ['logou' => true];
     } else {
-      return response(['logado' => false], 403);
+      return response(['logou' => false], 403);
     }
   }
 
   //Faz logout do usuário
   public function logout(){
     Auth::logout();
-    return ['deslogado' => true];
+    return ['deslogou' => true];
   }
 
   //Retorna um JSON informando o estado do usuário (Logado/Deslogado)

@@ -4,16 +4,16 @@ Route::get('/', function () {
 });
 
 // Auth::routes();
-// 
+//
 // Route::get('/home', 'HomeController@index')->name('home');
 
 /*
 * Auth
 */
 Route::prefix('auth')->group(function () {
-  Route::post('/login', 'LoginController@login')->name('login');
-  Route::get('/status', 'LoginController@status')->name('status');
-  Route::get('/logout', 'LoginController@logout')->name('logout');
+  Route::post('/login', 'AuthController@login')->name('login');
+  Route::get('/status', 'AuthController@status')->name('status');
+  Route::post('/logout', 'AuthController@logout')->name('logout');
 });
 
 
