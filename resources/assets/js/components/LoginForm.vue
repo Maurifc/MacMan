@@ -5,30 +5,34 @@
         <div class="col-sm-6 offset-sm-3">
 
           <!-- Form -->
-          <div class="card">
-            <div class="card-header">
-              <strong>Entre</strong>
-            </div>
-            <div class="card-block">
-              <div class="form-group">
-                <input
+          <form>
+            <div class="card">
+              <div class="card-header">
+                <strong>Entre</strong>
+              </div>
+              <div class="card-block">
+                <div class="form-group">
+                  <input
                   type="text"
                   class="form-control"
                   placeholder="Usuário"
                   v-model="login"
+                  autofocus
                   required>
-              </div>
-              <div class="form-group">
-                <input
+                </div>
+                <div class="form-group">
+                  <input
                   type="password"
                   class="form-control"
                   placeholder="Senha"
                   v-model="password"
                   required>
+                </div>
+                <button type="submit" class="btn btn-info" @click="doLogin">Login</button>
               </div>
-              <button class="btn btn-info" @click="doLogin">Login</button>
             </div>
-          </div><!-- Form -->
+          </form>
+          <!-- Form -->
 
         </div>
       </div>
@@ -44,17 +48,25 @@ export default {
   }),
   methods: {
     doLogin() {
-      axios.post('/auth/login', {
-        login: this.login,
-        password: this.password
-      })
-      .then(function (r) {
-        console.log(r.data);
-      })
-      .catch(function (error) {
-        alert('Falha no login. Confira suas credenciais!');
-      })
+      let self = this;
+      //Validações
+      if(this.login == '' || this.password == ''){
+        alert('Preencha os campos corretamente!');
 
+      } else {
+        //AJAX
+        axios.post('/auth/login', {
+          login: this.login,
+          password: this.password
+        })
+        .then(function (r) {
+          router.push('/computadores');
+        })
+        .catch(function (error) {
+          alert('Falha no login. Confira suas credenciais!');
+          self.login = self.password = '';
+        });
+      }
     }
   }
 }
