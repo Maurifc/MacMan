@@ -17,6 +17,7 @@
                   class="form-control"
                   placeholder="Usuário"
                   v-model="login"
+                  @input="limparErroForm"
                   autofocus
                   required>
                 </div>
@@ -26,8 +27,10 @@
                   class="form-control"
                   placeholder="Senha"
                   v-model="password"
+                  @input="limparErroForm"
                   required>
                 </div>
+                <p class="text-danger" v-if="falhaLogin">*Usuário ou senha incorretos!</p>
                 <button type="submit" class="btn btn-info" @click="doLogin">Login</button>
               </div>
             </div>
@@ -45,6 +48,7 @@ export default {
   data: () => ({
     login: '',
     password: '',
+    falhaLogin: false
   }),
   methods: {
     doLogin() {
@@ -63,10 +67,13 @@ export default {
           self.$router.push('/computadores');
         })
         .catch(function (error) {
-          alert('Falha no login. Confira suas credenciais!');
+          self.falhaLogin = true;
           self.login = self.password = '';
         });
       }
+    },
+    limparErroForm(){
+      this.falhaLogin = false;
     }
   }
 }
