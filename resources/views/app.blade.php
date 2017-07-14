@@ -36,7 +36,7 @@
         </ul>
         <ul class="navbar-nav ml-auto" v-show="$can('admin')">
           <li class="nav-item">
-            <router-link to="/logout" class="nav-link" href="#">Sair</router-link>
+            <a class="nav-link" @click="logout">Sair</a>
           </li>
         </ul>
       </div>
