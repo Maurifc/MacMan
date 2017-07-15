@@ -24,15 +24,15 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav" v-show="$can('admin')">
-          <li class="nav-item">
-            <router-link to="/computadores" class="nav-link" href="#">Computadores</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/licencas" class="nav-link" href="#">Licenças</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/clientes" class="nav-link" href="#">Clientes</router-link>
-          </li>
+          <router-link tag="li" to="/computadores" class="nav-item" exact>
+            <a class="nav-link">Computadores</a>
+          </router-link>
+          <router-link tag="li" to="/licencas" class="nav-item" exact>
+            <a class="nav-link">Licenças</a>
+          </router-link>
+          <router-link tag="li" to="/clientes" class="nav-item" exact>
+            <a class="nav-link">Clientes</a>
+          </router-link>
         </ul>
         <ul class="navbar-nav ml-auto" v-show="$can('admin')">
           <li class="nav-item">
@@ -41,6 +41,8 @@
         </ul>
       </div>
     </nav>
+
+    <!-- <alert msg="Login realizado com sucesso!" type="alert-success"></alert> -->
 
     <router-view></router-view>
 

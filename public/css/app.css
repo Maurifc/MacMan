@@ -10213,3 +10213,9 @@ body {
   background-color: #fff;
 }
 
+.alert {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+}
+

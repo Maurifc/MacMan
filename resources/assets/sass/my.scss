@@ -10,3 +10,10 @@ body{
 .bg-white{
   background-color: $white;
 }
+
+//Alerts
+.alert{
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+}
