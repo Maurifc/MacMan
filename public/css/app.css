@@ -10213,6 +10213,10 @@ body {
   background-color: #fff;
 }
 
+.container {
+  padding: 1rem;
+}
+
 .alert {
   position: fixed;
   top: 4rem;

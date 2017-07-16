@@ -7,8 +7,13 @@ body{
   margin-bottom: 1rem;
 }
 
+//Fundo branco - usado nos containers
 .bg-white{
   background-color: $white;
+}
+
+.container{
+  padding: 1rem;
 }
 
 //Alerts
